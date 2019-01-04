@@ -68,7 +68,7 @@ public class ServiceEmitterTest {
 "\n" +
 "    export interface MyObject {\n" +
 "        y: MyObject;\n" +
-"    }\n\n\n    // Added by 'EnumConstantsExtension' extension\n" +
+"    }\n" +
 "";
         assertEquals(expectedOutput, new String(stream.toByteArray()));
     }
@@ -229,10 +229,11 @@ public class ServiceEmitterTest {
         ServiceEmitter serviceEmitter = new ServiceEmitter(model, settings, writer);
         serviceEmitter.emitTypescriptTypes(settings, Lists.newArrayList(MyObject.class));
         writer.close();
-        String expectedOutput = "\n" +
+        String expectedOutput = "" +
+"\n" +
 "    export interface MyObject {\n" +
 "        y: MyObject;\n" +
-"    }\n\n\n    // Added by 'EnumConstantsExtension' extension\n";
+"    }\n";
         assertEquals(expectedOutput, new String(stream.toByteArray()));
     }
 
@@ -242,7 +243,8 @@ public class ServiceEmitterTest {
         ServiceEmitter serviceEmitter = new ServiceEmitter(model, settings, writer);
         serviceEmitter.emitTypescriptTypes(settings, Lists.newArrayList());
         writer.close();
-        String expectedOutput = "\n" +
+        String expectedOutput = "" +
+"\n" +
 "    export type MyEnum = \"VALUE1\" | \"VALUE2\";\n" +
 "\n\n    // Added by 'EnumConstantsExtension' extension\n\n" +
 "    export const MyEnum = {\n" +

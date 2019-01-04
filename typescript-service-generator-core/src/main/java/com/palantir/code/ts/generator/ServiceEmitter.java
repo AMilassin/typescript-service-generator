@@ -70,6 +70,9 @@ public final class ServiceEmitter {
             }
         };
 
+        // we don't ne /* tslint:disable */ from the typescript-generator
+        settingsToUse.noTslintDisable = true;
+
         settingsToUse.customTypeProcessor = discoveringProcessor;
         if (baseTypeProcessor != null) {
             settingsToUse.customTypeProcessor = new TypeProcessor.Chain(discoveringProcessor, baseTypeProcessor);
