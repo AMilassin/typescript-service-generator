@@ -20,6 +20,7 @@ import java.util.Set;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import cz.habarta.typescript.generator.*;
 import org.immutables.value.Value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -29,13 +30,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import cz.habarta.typescript.generator.GenericsTypeProcessor;
-import cz.habarta.typescript.generator.JsonLibrary;
-import cz.habarta.typescript.generator.Settings;
-import cz.habarta.typescript.generator.TsType;
-import cz.habarta.typescript.generator.TypeProcessor;
-import cz.habarta.typescript.generator.TypeScriptFileType;
-import cz.habarta.typescript.generator.TypeScriptOutputKind;
 import cz.habarta.typescript.generator.ext.EnumConstantsExtension;
 
 @Value.Immutable
@@ -181,6 +175,15 @@ public abstract class TypescriptServiceGeneratorConfiguration {
         };
     }
 
+    /**
+     * Enum mapping configuration
+     */
+    @Value.Default
+    public EnumMapping enumMapping() {
+        return EnumMapping.asInlineUnion;
+    }
+
+
     public TypeProcessor getOverridingTypeParser() {
         TypeProcessor defaultTypeProcessor = new TypeProcessor() {
             @Override
@@ -231,7 +234,11 @@ public abstract class TypescriptServiceGeneratorConfiguration {
         settings.optionalAnnotations = optionalAnnotations();
         settings.outputKind = TypeScriptOutputKind.global;
         settings.outputFileType = TypeScriptFileType.implementationFile;
+        settings.mapEnum = enumMapping();
         settings.extensions = Lists.newArrayList(new EnumConstantsExtension());
+
+        // we don't ne /* tslint:disable */ from the typescript-generator
+        settings.noTslintDisable = true;
 
         return settings;
     }
